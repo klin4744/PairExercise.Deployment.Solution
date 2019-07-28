@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: murmuring-oasis-71556
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: 0JKq8SLpkuMOf5EcJGa3azBHrfphpQTdHvtUjwVM120Z1QC7kkbXrIzz3G43JPe7OWpme7ckvDHLP0cR1tD76N7uAUJ+2559zeJdkFujeag0MGc54JO/HKTakC8GcIn9xFLbTFUWZPR6hSJKk0avxeq/2Z6mguucyC9HRJt51dJxGazxnkKWLtv0qje1kTAmbVp1k1VxXt49Shi8XKP/bohDfmQddteEslWbrHyfrYkzF3byHBRjTpEMk7auH31QtiLPKTKuMl8fWwd0Xh7TtOPFToV6bFNg5EP8VVFTEmsqXCPBXp6MhfR6zNGdD+D6L/8aUEB44tc3uOB3mjqjFxqbug3S2P3rw6mEs8Zx3gJupIfyChso+9wgVejZrhIX9Q6bsMYxfu8rlOwG4NquASGBAmwXb1uVVIf5zB+x8eg8fOtyrBTJ3DnubiE1oymC/m4aYydLVaOdlpHpheH/oPzzyGqjDzTJ5BOVy7NowJde4v/6vwUQd9sSIBY+Jb3w/n5j2PVzReUw1m0llzSSvoHkZbYpmDMqtaiGkc3KW4VeFzdjHuZE7e4tEt6YB/ljcXaKJKEOjlKdBgIsd6UHeoOh7m8Hx8ojuuLh0v+dlmgv7/urGMHVLaXT/rVKimXmj6IXY4zcUJbixHMTKUeTCXNyA2isxbz5qosX9zCeCrQ=
